@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Data Grid</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eef0f3;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        .price {
+            font-weight: bold;
+            color: #2e8b57;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📚 추천 도서 목록 (Mock Data)</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>도서명</th>
+                <th>저자</th>
+                <th>가격</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${items}">
+                <td th:text="${item.id}">1</td>
+                <td th:text="${item.title}">도서명 샘플</td>
+                <td th:text="${item.author}">저자 샘플</td>
+                <td class="price" th:text="${#numbers.formatInteger(item.price, 1, 'COMMA')} + '원'">10,000원</td>
+            </tr>
+            <!-- 데이터가 없을 경우 -->
+            <tr th:if="${#lists.isEmpty(items)}">
+                <td colspan="4" style="text-align: center;">데이터가 존재하지 않습니다.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
