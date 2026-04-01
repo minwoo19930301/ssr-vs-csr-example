@@ -20,6 +20,21 @@ ssr-vs-csr-example/
 ## 동작 방식 비교
 
 ### 1. SSR (Server-Side Rendering) 
+
+```mermaid
+sequenceDiagram
+    participant B as Browser (Client)
+    participant S as Spring Boot (Server)
+    participant DB as MockData (DB)
+    
+    B->>S: GET /grid 요청
+    S->>DB: 데이터 조회
+    DB-->>S: 데이터 반환 (ItemDto 객체 리스트)
+    S->>S: HTML 템플릿(Thymeleaf)에<br/>데이터 합성(렌더링)
+    S-->>B: 완성된 HTML 문서 응답
+    B->>B: HTML 화면 즉시 표시
+```
+
 - 기술 스택: **Spring Boot + Thymeleaf**
 - 접근 경로: `http://localhost:8080/grid`
 - 특징: 
@@ -27,6 +42,24 @@ ssr-vs-csr-example/
   - 브라우저에 완성된 HTML 문서 자체가 내려옵니다. 초기 로딩이 빠르고 SEO(검색 엔진 최적화)에 유리합니다.
 
 ### 2. CSR (Client-Side Rendering)
+
+```mermaid
+sequenceDiagram
+    participant B as Browser (Client)
+    participant R as React (Frontend Server)
+    participant S as Spring Boot (Backend API)
+    participant DB as MockData (DB)
+
+    B->>R: 사이트 접속 요청
+    R-->>B: 빈 HTML + JavaScript 번들 응답
+    B->>B: UI 초기화 (Loading 문구 표시)
+    B->>S: fetch('/api/v1/grid') 비동기 요청
+    S->>DB: 데이터 조회
+    DB-->>S: 데이터 반환
+    S-->>B: 순수 JSON 데이터 응답
+    B->>B: React가 JSON을 읽고<br/>브라우저 DOM(HTML) 직접 생성 및 렌더링
+```
+
 - 기술 스택: **React (Frontend) + Spring Boot (Backend API)**
 - 접근 경로: `http://localhost:5174/` (또는 프론트엔드가 실행 중인 로컬 포트)
 - 특징:
